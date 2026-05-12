@@ -18,68 +18,115 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          full_name: string | null
           id: string
+          phone: string | null
+          rt_number: Database["public"]["Enums"]["rt_type"] | null
           wilayah: Database["public"]["Enums"]["wilayah_type"]
         }
         Insert: {
           created_at?: string
           email: string
+          full_name?: string | null
           id: string
+          phone?: string | null
+          rt_number?: Database["public"]["Enums"]["rt_type"] | null
           wilayah?: Database["public"]["Enums"]["wilayah_type"]
         }
         Update: {
           created_at?: string
           email?: string
+          full_name?: string | null
           id?: string
+          phone?: string | null
+          rt_number?: Database["public"]["Enums"]["rt_type"] | null
           wilayah?: Database["public"]["Enums"]["wilayah_type"]
         }
         Relationships: []
       }
+      report_comments: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          report_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          report_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          report_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_comments_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reports: {
         Row: {
-          alamat: string
+          alamat: string | null
           created_at: string
           deskripsi: string
           foto_url: string | null
           id: string
           kategori: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor: string
+          nama_pelapor: string | null
           rt_tujuan: Database["public"]["Enums"]["rt_type"]
           status: Database["public"]["Enums"]["report_status"]
           tanggapan_admin: string | null
           tanggapan_at: string | null
           tanggapan_by: string | null
-          whatsapp: string
+          title: string | null
+          user_id: string | null
+          whatsapp: string | null
         }
         Insert: {
-          alamat: string
+          alamat?: string | null
           created_at?: string
           deskripsi: string
           foto_url?: string | null
           id?: string
           kategori: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor: string
+          nama_pelapor?: string | null
           rt_tujuan: Database["public"]["Enums"]["rt_type"]
           status?: Database["public"]["Enums"]["report_status"]
           tanggapan_admin?: string | null
           tanggapan_at?: string | null
           tanggapan_by?: string | null
-          whatsapp: string
+          title?: string | null
+          user_id?: string | null
+          whatsapp?: string | null
         }
         Update: {
-          alamat?: string
+          alamat?: string | null
           created_at?: string
           deskripsi?: string
           foto_url?: string | null
           id?: string
           kategori?: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor?: string
+          nama_pelapor?: string | null
           rt_tujuan?: Database["public"]["Enums"]["rt_type"]
           status?: Database["public"]["Enums"]["report_status"]
           tanggapan_admin?: string | null
           tanggapan_at?: string | null
           tanggapan_by?: string | null
-          whatsapp?: string
+          title?: string | null
+          user_id?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }
@@ -106,6 +153,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_report: {
+        Args: { _report_id: string; _user_id: string }
+        Returns: boolean
+      }
       get_user_wilayah: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["wilayah_type"]
@@ -119,7 +170,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin_rw" | "admin_rt"
+      app_role: "admin_rw" | "admin_rt" | "warga"
       report_kategori: "Keamanan" | "Sampah" | "Infrastruktur" | "Lainnya"
       report_status: "Menunggu" | "Diproses" | "Selesai"
       rt_type: "RT01" | "RT02" | "RT03" | "RT04" | "RT05"
@@ -251,7 +302,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin_rw", "admin_rt"],
+      app_role: ["admin_rw", "admin_rt", "warga"],
       report_kategori: ["Keamanan", "Sampah", "Infrastruktur", "Lainnya"],
       report_status: ["Menunggu", "Diproses", "Selesai"],
       rt_type: ["RT01", "RT02", "RT03", "RT04", "RT05"],
