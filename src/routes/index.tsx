@@ -1,67 +1,35 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/site-header";
-import { ReportForm } from "@/components/report-form";
-import { Shield, Trash2, Construction, MoreHorizontal } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useAuth } from "@/lib/auth";
+import { MessageSquareText } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sapa RW 4 — Lapor Warga" },
-      { name: "description", content: "Sampaikan keluhan dan laporan warga RW 04 dengan cepat. Ditangani oleh pengurus RT/RW masing-masing." },
+      { title: "Sapa RW 4 — Sistem Pelaporan Warga" },
+      { name: "description", content: "Aplikasi resmi pelaporan warga RW 04. Login untuk melaporkan dan memantau penanganan." },
     ],
   }),
   component: Index,
 });
 
 function Index() {
+  const { user, role, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) navigate({ to: "/login" });
+    else if (role) navigate({ to: "/dashboard" });
+  }, [user, role, loading, navigate]);
+
   return (
-    <div className="min-h-screen bg-background">
-      <SiteHeader />
-
-      <section className="relative overflow-hidden" style={{ background: "var(--gradient-hero)" }}>
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 0%, transparent 40%)" }} />
-        <div className="relative mx-auto max-w-5xl px-4 py-12 sm:py-16 text-primary-foreground">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
-              Sistem Pelaporan Warga
-            </span>
-            <h1 className="mt-4 text-3xl sm:text-5xl font-bold tracking-tight">
-              Sapa RW 4
-            </h1>
-            <p className="mt-3 text-base sm:text-lg opacity-90">
-              Suara Anda penting. Laporkan masalah keamanan, sampah, atau infrastruktur — langsung ditangani oleh pengurus RT setempat.
-            </p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
-            {[
-              { icon: Shield, label: "Keamanan" },
-              { icon: Trash2, label: "Sampah" },
-              { icon: Construction, label: "Infrastruktur" },
-              { icon: MoreHorizontal, label: "Lainnya" },
-            ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex flex-col items-center gap-1.5 rounded-xl bg-white/10 p-3 backdrop-blur-sm">
-                <Icon className="h-5 w-5" />
-                <span className="text-xs font-medium">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <main className="mx-auto max-w-2xl px-4 py-10">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">Form Laporan Warga</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Isi dengan jujur. Laporan Anda akan diteruskan ke pengurus RT yang dipilih.
-          </p>
-        </div>
-        <ReportForm />
-
-        <p className="mt-8 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Sapa RW 04 · Untuk warga, oleh warga.
-        </p>
-      </main>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+        <MessageSquareText className="h-7 w-7" />
+      </div>
+      <h1 className="mt-4 text-2xl font-bold">Sapa RW 4</h1>
+      <p className="mt-2 text-sm text-muted-foreground">Memuat aplikasi...</p>
     </div>
   );
 }

@@ -2,13 +2,17 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-export type AppRole = "admin_rw" | "admin_rt";
+export type AppRole = "admin_rw" | "admin_rt" | "warga";
 export type Wilayah = "RT01" | "RT02" | "RT03" | "RT04" | "RT05" | "RW04";
+export type RTNumber = "RT01" | "RT02" | "RT03" | "RT04" | "RT05";
 
 export interface Profile {
   id: string;
   email: string;
   wilayah: Wilayah;
+  full_name: string | null;
+  phone: string | null;
+  rt_number: RTNumber | null;
 }
 
 interface AuthCtx {
@@ -17,6 +21,7 @@ interface AuthCtx {
   profile: Profile | null;
   role: AppRole | null;
   loading: boolean;
+  refresh: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -28,6 +33,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [role, setRole] = useState<AppRole | null>(null);
   const [loading, setLoading] = useState(true);
+
+  async function loadProfile(uid: string) {
+    const [{ data: p }, { data: r }] = await Promise.all([
+      supabase.from("profiles").select("*").eq("id", uid).maybeSingle(),
+      supabase.from("user_roles").select("role").eq("user_id", uid).maybeSingle(),
+    ]);
+    setProfile((p as Profile) ?? null);
+    setRole((r?.role as AppRole) ?? null);
+  }
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
@@ -54,23 +68,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  async function loadProfile(uid: string) {
-    const [{ data: p }, { data: r }] = await Promise.all([
-      supabase.from("profiles").select("*").eq("id", uid).maybeSingle(),
-      supabase.from("user_roles").select("role").eq("user_id", uid).maybeSingle(),
-    ]);
-    if (p) setProfile(p as Profile);
-    if (r) setRole(r.role as AppRole);
-  }
-
   async function signOut() {
     await supabase.auth.signOut();
     setProfile(null);
     setRole(null);
   }
 
+  async function refresh() {
+    if (user) await loadProfile(user.id);
+  }
+
   return (
-    <Ctx.Provider value={{ user, session, profile, role, loading, signOut }}>
+    <Ctx.Provider value={{ user, session, profile, role, loading, signOut, refresh }}>
       {children}
     </Ctx.Provider>
   );
