@@ -14,16 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          wilayah: Database["public"]["Enums"]["wilayah_type"]
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          wilayah?: Database["public"]["Enums"]["wilayah_type"]
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          wilayah?: Database["public"]["Enums"]["wilayah_type"]
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          alamat: string
+          created_at: string
+          deskripsi: string
+          foto_url: string | null
+          id: string
+          kategori: Database["public"]["Enums"]["report_kategori"]
+          nama_pelapor: string
+          rt_tujuan: Database["public"]["Enums"]["rt_type"]
+          status: Database["public"]["Enums"]["report_status"]
+          tanggapan_admin: string | null
+          tanggapan_at: string | null
+          tanggapan_by: string | null
+          whatsapp: string
+        }
+        Insert: {
+          alamat: string
+          created_at?: string
+          deskripsi: string
+          foto_url?: string | null
+          id?: string
+          kategori: Database["public"]["Enums"]["report_kategori"]
+          nama_pelapor: string
+          rt_tujuan: Database["public"]["Enums"]["rt_type"]
+          status?: Database["public"]["Enums"]["report_status"]
+          tanggapan_admin?: string | null
+          tanggapan_at?: string | null
+          tanggapan_by?: string | null
+          whatsapp: string
+        }
+        Update: {
+          alamat?: string
+          created_at?: string
+          deskripsi?: string
+          foto_url?: string | null
+          id?: string
+          kategori?: Database["public"]["Enums"]["report_kategori"]
+          nama_pelapor?: string
+          rt_tujuan?: Database["public"]["Enums"]["rt_type"]
+          status?: Database["public"]["Enums"]["report_status"]
+          tanggapan_admin?: string | null
+          tanggapan_at?: string | null
+          tanggapan_by?: string | null
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_wilayah: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["wilayah_type"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin_rw" | "admin_rt"
+      report_kategori: "Keamanan" | "Sampah" | "Infrastruktur" | "Lainnya"
+      report_status: "Menunggu" | "Diproses" | "Selesai"
+      rt_type: "RT01" | "RT02" | "RT03" | "RT04" | "RT05"
+      wilayah_type: "RT01" | "RT02" | "RT03" | "RT04" | "RT05" | "RW04"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +250,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin_rw", "admin_rt"],
+      report_kategori: ["Keamanan", "Sampah", "Infrastruktur", "Lainnya"],
+      report_status: ["Menunggu", "Diproses", "Selesai"],
+      rt_type: ["RT01", "RT02", "RT03", "RT04", "RT05"],
+      wilayah_type: ["RT01", "RT02", "RT03", "RT04", "RT05", "RW04"],
+    },
   },
 } as const
