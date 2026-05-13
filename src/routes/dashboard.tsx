@@ -18,6 +18,7 @@ import {
   PlusCircle, Calendar, Inbox, MessageSquare, Phone, MapPin, User,
   Image as ImageIcon, ArrowRight,
 } from "lucide-react";
+import { useReportPhotoUrl } from "@/components/report-photo";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Sapa RW 4" }] }),
@@ -32,8 +33,6 @@ interface Report {
   created_at: string;
   user_id: string | null;
   title: string | null;
-  nama_pelapor: string | null;
-  whatsapp: string | null;
   alamat: string | null;
   rt_tujuan: RT;
   kategori: string;
@@ -41,6 +40,8 @@ interface Report {
   foto_url: string | null;
   status: Status;
   tanggapan_admin: string | null;
+  reporter_name?: string | null;
+  reporter_phone?: string | null;
 }
 
 const statusColor: Record<Status, string> = {
