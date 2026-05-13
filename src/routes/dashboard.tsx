@@ -18,6 +18,7 @@ import {
   PlusCircle, Calendar, Inbox, MessageSquare, Phone, MapPin, User,
   Image as ImageIcon, ArrowRight,
 } from "lucide-react";
+import { useReportPhotoUrl } from "@/components/report-photo";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Sapa RW 4" }] }),
@@ -32,8 +33,6 @@ interface Report {
   created_at: string;
   user_id: string | null;
   title: string | null;
-  nama_pelapor: string | null;
-  whatsapp: string | null;
   alamat: string | null;
   rt_tujuan: RT;
   kategori: string;
@@ -41,6 +40,8 @@ interface Report {
   foto_url: string | null;
   status: Status;
   tanggapan_admin: string | null;
+  reporter_name?: string | null;
+  reporter_phone?: string | null;
 }
 
 const statusColor: Record<Status, string> = {
@@ -202,9 +203,22 @@ function AdminDashboard() {
       .from("reports")
       .select("*")
       .order("created_at", { ascending: false });
+    if (error) { setFetching(false); return toast.error(error.message); }
+    const rows = (data ?? []) as Report[];
+    // Reporter contact info: only fetched for owner / admin_rw via profiles RLS
+    const userIds = Array.from(new Set(rows.map(r => r.user_id).filter(Boolean) as string[]));
+    let nameMap = new Map<string, { full_name: string | null; phone: string | null }>();
+    if (userIds.length) {
+      const { data: profs } = await supabase
+        .from("profiles").select("id, full_name, phone").in("id", userIds);
+      nameMap = new Map((profs ?? []).map(p => [p.id, { full_name: p.full_name, phone: p.phone }]));
+    }
+    setReports(rows.map(r => ({
+      ...r,
+      reporter_name: r.user_id ? nameMap.get(r.user_id)?.full_name ?? null : null,
+      reporter_phone: r.user_id ? nameMap.get(r.user_id)?.phone ?? null : null,
+    })));
     setFetching(false);
-    if (error) return toast.error(error.message);
-    setReports((data ?? []) as Report[]);
   }
 
   const filtered = useMemo(() => reports.filter(r => {
@@ -298,6 +312,7 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
   const [tanggapan, setTanggapan] = useState(report.tanggapan_admin ?? "");
   const [status, setStatus] = useState<Status>(report.status);
   const [saving, setSaving] = useState(false);
+  const photoUrl = useReportPhotoUrl(report.foto_url);
 
   async function save() {
     if (!tanggapan.trim()) return toast.error("Isi tanggapan terlebih dahulu");
@@ -332,8 +347,8 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
       <p className="mt-1 text-sm leading-relaxed">{report.deskripsi}</p>
 
       <div className="mt-3 grid gap-1.5 text-xs text-muted-foreground sm:grid-cols-3">
-        {report.nama_pelapor && <span className="flex items-center gap-1.5"><User className="h-3 w-3" />{report.nama_pelapor}</span>}
-        {report.whatsapp && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" />{report.whatsapp}</span>}
+        {report.reporter_name && <span className="flex items-center gap-1.5"><User className="h-3 w-3" />{report.reporter_name}</span>}
+        {report.reporter_phone && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" />{report.reporter_phone}</span>}
         {report.alamat && <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3" />{report.alamat}</span>}
       </div>
 
@@ -345,13 +360,13 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
       )}
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {report.foto_url && (
-          <a href={report.foto_url} target="_blank" rel="noreferrer">
+        {photoUrl && (
+          <a href={photoUrl} target="_blank" rel="noreferrer">
             <Button variant="outline" size="sm" className="gap-1.5"><ImageIcon className="h-3.5 w-3.5" /> Foto</Button>
           </a>
         )}
-        {report.whatsapp && (
-          <a href={`https://wa.me/${report.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
+        {report.reporter_phone && (
+          <a href={`https://wa.me/${report.reporter_phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
             <Button variant="outline" size="sm" className="gap-1.5"><Phone className="h-3.5 w-3.5" /> WA</Button>
           </a>
         )}

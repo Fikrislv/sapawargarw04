@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Send, Calendar, MapPin, Image as ImageIcon } from "lucide-react";
+import { useReportPhotoUrl } from "@/components/report-photo";
 
 export const Route = createFileRoute("/laporan/$id")({
   head: () => ({ meta: [{ title: "Detail Laporan — Sapa RW 4" }] }),
@@ -21,8 +22,6 @@ interface Report {
   user_id: string | null;
   created_at: string;
   title: string | null;
-  nama_pelapor: string | null;
-  whatsapp: string | null;
   alamat: string | null;
   rt_tujuan: string;
   kategori: string;
@@ -56,6 +55,7 @@ function ReportDetail() {
   const [msg, setMsg] = useState("");
   const [sending, setSending] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const photoUrl = useReportPhotoUrl(report?.foto_url ?? null);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
@@ -162,9 +162,9 @@ function ReportDetail() {
             {report.alamat && <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{report.alamat}</span>}
           </div>
 
-          {report.foto_url && (
-            <a href={report.foto_url} target="_blank" rel="noreferrer" className="mt-3 block overflow-hidden rounded-lg border">
-              <img src={report.foto_url} alt="Lampiran" className="max-h-72 w-full object-cover" />
+          {report.foto_url && photoUrl && (
+            <a href={photoUrl} target="_blank" rel="noreferrer" className="mt-3 block overflow-hidden rounded-lg border">
+              <img src={photoUrl} alt="Lampiran" className="max-h-72 w-full object-cover" />
             </a>
           )}
 

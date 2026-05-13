@@ -59,14 +59,13 @@ function LaporPage() {
         const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
         const { error: upErr } = await supabase.storage.from("report-photos").upload(path, photo);
         if (upErr) throw upErr;
-        foto_url = supabase.storage.from("report-photos").getPublicUrl(path).data.publicUrl;
+        foto_url = path;
       }
       const { data, error } = await supabase.from("reports").insert({
         ...parsed.data,
+        foto_url,
         rt_tujuan: profile.rt_number,
         user_id: user.id,
-        nama_pelapor: profile.full_name,
-        whatsapp: profile.phone,
       }).select("id").single();
       if (error) throw error;
       toast.success("Laporan berhasil dikirim!");

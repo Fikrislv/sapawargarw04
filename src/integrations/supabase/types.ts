@@ -84,7 +84,6 @@ export type Database = {
           foto_url: string | null
           id: string
           kategori: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor: string | null
           rt_tujuan: Database["public"]["Enums"]["rt_type"]
           status: Database["public"]["Enums"]["report_status"]
           tanggapan_admin: string | null
@@ -92,7 +91,6 @@ export type Database = {
           tanggapan_by: string | null
           title: string | null
           user_id: string | null
-          whatsapp: string | null
         }
         Insert: {
           alamat?: string | null
@@ -101,7 +99,6 @@ export type Database = {
           foto_url?: string | null
           id?: string
           kategori: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor?: string | null
           rt_tujuan: Database["public"]["Enums"]["rt_type"]
           status?: Database["public"]["Enums"]["report_status"]
           tanggapan_admin?: string | null
@@ -109,7 +106,6 @@ export type Database = {
           tanggapan_by?: string | null
           title?: string | null
           user_id?: string | null
-          whatsapp?: string | null
         }
         Update: {
           alamat?: string | null
@@ -118,7 +114,6 @@ export type Database = {
           foto_url?: string | null
           id?: string
           kategori?: Database["public"]["Enums"]["report_kategori"]
-          nama_pelapor?: string | null
           rt_tujuan?: Database["public"]["Enums"]["rt_type"]
           status?: Database["public"]["Enums"]["report_status"]
           tanggapan_admin?: string | null
@@ -126,7 +121,6 @@ export type Database = {
           tanggapan_by?: string | null
           title?: string | null
           user_id?: string | null
-          whatsapp?: string | null
         }
         Relationships: []
       }
