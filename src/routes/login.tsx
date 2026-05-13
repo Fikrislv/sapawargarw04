@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MessageSquareText } from "lucide-react";
+import logoRw04 from "@/assets/logo-rw04.jpg";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Masuk — Sapa RW 4" }] }),
@@ -83,11 +83,11 @@ function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
       <div className="mx-auto max-w-md px-4 py-8 sm:py-14">
         <div className="mb-6 text-center">
-          <Link to="/" className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-            <MessageSquareText className="h-7 w-7" />
+          <Link to="/" className="inline-block">
+            <img src={logoRw04} alt="Logo RW 04 Bogor" className="mx-auto h-20 w-20 rounded-full object-cover ring-4 ring-accent/40 shadow-lg" />
           </Link>
-          <h1 className="mt-3 text-2xl font-bold">Sapa RW 4</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Sistem pelaporan warga RW 04</p>
+          <h1 className="mt-3 text-2xl font-bold">Sapa RW 04</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Sistem pelaporan warga RW 04 Bogor</p>
         </div>
 
         <Card className="p-5">

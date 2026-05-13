@@ -1,13 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
-import { MessageSquareText } from "lucide-react";
+import logoRw04 from "@/assets/logo-rw04.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sapa RW 4 — Sistem Pelaporan Warga" },
-      { name: "description", content: "Aplikasi resmi pelaporan warga RW 04. Login untuk melaporkan dan memantau penanganan." },
+      { title: "Sapa RW 04 — Sistem Pelaporan Warga" },
+      { name: "description", content: "Aplikasi resmi pelaporan warga RW 04 Bogor. Login untuk melaporkan dan memantau penanganan." },
     ],
   }),
   component: Index,
