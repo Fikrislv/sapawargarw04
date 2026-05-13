@@ -162,9 +162,9 @@ function ReportDetail() {
             {report.alamat && <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{report.alamat}</span>}
           </div>
 
-          {report.foto_url && (
-            <a href={report.foto_url} target="_blank" rel="noreferrer" className="mt-3 block overflow-hidden rounded-lg border">
-              <img src={report.foto_url} alt="Lampiran" className="max-h-72 w-full object-cover" />
+          {report.foto_url && photoUrl && (
+            <a href={photoUrl} target="_blank" rel="noreferrer" className="mt-3 block overflow-hidden rounded-lg border">
+              <img src={photoUrl} alt="Lampiran" className="max-h-72 w-full object-cover" />
             </a>
           )}
 
