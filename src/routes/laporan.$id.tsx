@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Send, Calendar, MapPin, Image as ImageIcon } from "lucide-react";
+import { useReportPhotoUrl } from "@/components/report-photo";
 
 export const Route = createFileRoute("/laporan/$id")({
   head: () => ({ meta: [{ title: "Detail Laporan — Sapa RW 4" }] }),
