@@ -203,9 +203,22 @@ function AdminDashboard() {
       .from("reports")
       .select("*")
       .order("created_at", { ascending: false });
+    if (error) { setFetching(false); return toast.error(error.message); }
+    const rows = (data ?? []) as Report[];
+    // Reporter contact info: only fetched for owner / admin_rw via profiles RLS
+    const userIds = Array.from(new Set(rows.map(r => r.user_id).filter(Boolean) as string[]));
+    let nameMap = new Map<string, { full_name: string | null; phone: string | null }>();
+    if (userIds.length) {
+      const { data: profs } = await supabase
+        .from("profiles").select("id, full_name, phone").in("id", userIds);
+      nameMap = new Map((profs ?? []).map(p => [p.id, { full_name: p.full_name, phone: p.phone }]));
+    }
+    setReports(rows.map(r => ({
+      ...r,
+      reporter_name: r.user_id ? nameMap.get(r.user_id)?.full_name ?? null : null,
+      reporter_phone: r.user_id ? nameMap.get(r.user_id)?.phone ?? null : null,
+    })));
     setFetching(false);
-    if (error) return toast.error(error.message);
-    setReports((data ?? []) as Report[]);
   }
 
   const filtered = useMemo(() => reports.filter(r => {
