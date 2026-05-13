@@ -347,8 +347,8 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
       <p className="mt-1 text-sm leading-relaxed">{report.deskripsi}</p>
 
       <div className="mt-3 grid gap-1.5 text-xs text-muted-foreground sm:grid-cols-3">
-        {report.nama_pelapor && <span className="flex items-center gap-1.5"><User className="h-3 w-3" />{report.nama_pelapor}</span>}
-        {report.whatsapp && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" />{report.whatsapp}</span>}
+        {report.reporter_name && <span className="flex items-center gap-1.5"><User className="h-3 w-3" />{report.reporter_name}</span>}
+        {report.reporter_phone && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" />{report.reporter_phone}</span>}
         {report.alamat && <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3" />{report.alamat}</span>}
       </div>
 
@@ -360,13 +360,13 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
       )}
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {report.foto_url && (
-          <a href={report.foto_url} target="_blank" rel="noreferrer">
+        {photoUrl && (
+          <a href={photoUrl} target="_blank" rel="noreferrer">
             <Button variant="outline" size="sm" className="gap-1.5"><ImageIcon className="h-3.5 w-3.5" /> Foto</Button>
           </a>
         )}
-        {report.whatsapp && (
-          <a href={`https://wa.me/${report.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
+        {report.reporter_phone && (
+          <a href={`https://wa.me/${report.reporter_phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
             <Button variant="outline" size="sm" className="gap-1.5"><Phone className="h-3.5 w-3.5" /> WA</Button>
           </a>
         )}
