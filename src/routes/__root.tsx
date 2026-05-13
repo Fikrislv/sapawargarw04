@@ -63,10 +63,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sapa RW 4 — Lapor Warga" },
-      { name: "description", content: "Sistem pelaporan dan penanganan warga RW 04. Sampaikan laporan Anda dengan mudah." },
-      { property: "og:title", content: "Sapa RW 4 — Lapor Warga" },
-      { name: "twitter:title", content: "Sapa RW 4 — Lapor Warga" },
+      { title: "Sapa RW 04 — Lapor Warga" },
+      { name: "description", content: "Sistem pelaporan dan penanganan warga RW 04 Bogor, Jawa Barat. Sampaikan laporan Anda dengan mudah." },
+      { property: "og:title", content: "Sapa RW 04 — Lapor Warga" },
+      { name: "twitter:title", content: "Sapa RW 04 — Lapor Warga" },
       { property: "og:description", content: "Sistem pelaporan dan penanganan warga RW 04. Sampaikan laporan Anda dengan mudah." },
       { name: "twitter:description", content: "Sistem pelaporan dan penanganan warga RW 04. Sampaikan laporan Anda dengan mudah." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3d172e16-f6a5-4f91-8fcd-f6571fa0ca8c" },
@@ -76,6 +76,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/jpeg", href: "/favicon.jpg" },
+      { rel: "apple-touch-icon", href: "/favicon.jpg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" },
