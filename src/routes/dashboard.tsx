@@ -312,6 +312,7 @@ function AdminReportCard({ report, onUpdated }: { report: Report; onUpdated: () 
   const [tanggapan, setTanggapan] = useState(report.tanggapan_admin ?? "");
   const [status, setStatus] = useState<Status>(report.status);
   const [saving, setSaving] = useState(false);
+  const photoUrl = useReportPhotoUrl(report.foto_url);
 
   async function save() {
     if (!tanggapan.trim()) return toast.error("Isi tanggapan terlebih dahulu");
