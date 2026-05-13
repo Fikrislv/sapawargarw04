@@ -55,6 +55,7 @@ function ReportDetail() {
   const [msg, setMsg] = useState("");
   const [sending, setSending] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const photoUrl = useReportPhotoUrl(report?.foto_url ?? null);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
