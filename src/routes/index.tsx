@@ -25,10 +25,8 @@ function Index() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-        <MessageSquareText className="h-7 w-7" />
-      </div>
-      <h1 className="mt-4 text-2xl font-bold">Sapa RW 4</h1>
+      <img src={logoRw04} alt="Logo RW 04 Bogor" className="h-20 w-20 rounded-full object-cover ring-4 ring-accent/40 shadow-lg" />
+      <h1 className="mt-4 text-2xl font-bold">Sapa RW 04</h1>
       <p className="mt-2 text-sm text-muted-foreground">Memuat aplikasi...</p>
     </div>
   );
