@@ -21,8 +21,6 @@ interface Report {
   user_id: string | null;
   created_at: string;
   title: string | null;
-  nama_pelapor: string | null;
-  whatsapp: string | null;
   alamat: string | null;
   rt_tujuan: string;
   kategori: string;
