@@ -12,4 +12,7 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  base: "./",
+  build: { outDir: "dist",
+         }
 });
