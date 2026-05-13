@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { MessageSquareText, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import logoRw04 from "@/assets/logo-rw04.jpg";
 
 export function AppHeader({ title, subtitle }: { title?: string; subtitle?: string }) {
   const { signOut, role } = useAuth();
@@ -16,11 +17,13 @@ export function AppHeader({ title, subtitle }: { title?: string; subtitle?: stri
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link to="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <MessageSquareText className="h-4 w-4" />
-          </div>
+          <img
+            src={logoRw04}
+            alt="Logo RW 04 Bogor"
+            className="h-9 w-9 rounded-full object-cover ring-2 ring-accent/60"
+          />
           <div className="leading-tight">
-            <div className="text-sm font-bold">{title ?? "Sapa RW 4"}</div>
+            <div className="text-sm font-bold">{title ?? "Sapa RW 04"}</div>
             <div className="text-[11px] text-muted-foreground">{subtitle ?? roleLabel}</div>
           </div>
         </Link>
